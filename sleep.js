@@ -9,10 +9,24 @@ var settings = { fullscreen: true },
     direction = 'expand';
 
 circle.linewidth = 0;
-circle.fill = "#228B22";
+circle.fill = '#228B22';
+
+var maxPixel = width < height ? height : width;
+var maxScale = maxPixel / 10;
+var paramString = window.location.search.substr(1);
+var paramArray = paramString.split('&');
+var params = {};
+
+for (var i = 0; i < paramArray.length; i++) {
+  var p = paramArray[i].split('=');
+  params[p[0]] = p[1];
+}
+setBreath();
+
 
 setInterval(function() {
   direction = direction === 'expand' ? 'contract' : 'expand';
+  console.log(circle.scale);
 }, breathIn);
 
 two.play();
@@ -28,5 +42,15 @@ function expandContract() {
   if (direction === 'contract') {
     scale -= 0.15;
     circle.scale = scale;
+  }
+}
+
+function setBreath() {
+  if (params.breathIn) {
+    breathIn = params.breathIn * 1000;
+  }
+
+  if (params.breathOut) {
+    breathOut = params.breathOut * 1000;
   }
 }
