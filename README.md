@@ -11,6 +11,6 @@ Breath times are customizable through the query string (breathIn and breathOut)
 
 TODO:
 - test does this actually work for falling asleep?
-- **make shape expand to full width of window**
-- **customizable breath in/breath out time**
+- ~~make shape expand to full width of window~~
+- ~~customizable breath in/breath out time~~
 
