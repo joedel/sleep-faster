@@ -1,13 +1,11 @@
 Sleep Faster
 ============
 
-Playing around with an idea that might help someone fall asleep faster. 
+A cicle grows and shrinks on your phone screen. It helps you fall asleep maybe?
 
-The idea is that if you time your breath with the light the phone screen gives off, you can distract your brain, kind of like a form of meditation.
+The idea is that if you time your breath with the pulsing light of the circle you can distract your brain, kind of like a form of meditation.
 
-Right now it's just a circle that grows and contracts.
-
-I mostly wanted to play around with [two.js](https://github.com/jonobr1/two.js) which is what this uses to create the circle.
+I mostly wanted to play around with [two.js](https://github.com/jonobr1/two.js) which is what this uses to create the circle. Although this is kind of a boring example (so far)
 
 
 TODO:
