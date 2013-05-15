@@ -1,56 +1,68 @@
-var settings = { fullscreen: true },
-    two = new Two(settings).appendTo(document.body),
+var twoSettings = { fullscreen: true },
+    two = new Two(twoSettings).appendTo(document.body),
     height = two.height,
     width = two.width,
-    circle = two.makeCircle(width/2, height/2, 10),
-    scale = 1,
-    breathIn = 4000,
-    breathOut = 4000;
-    direction = 'expand';
+    square = two.makeRectangle(width/2, height/2, 10, 10),
+    direction = 'expand',
+    maxPixel = width < height ? height : width,
+    maxScale = maxPixel / 10,
+    params = {},
+    settings = {};
 
-circle.linewidth = 0;
-circle.fill = '#228B22';
+paramSettings();
 
-var maxPixel = width < height ? height : width;
-var maxScale = maxPixel / 10;
-var paramString = window.location.search.substr(1);
-var paramArray = paramString.split('&');
-var params = {};
-
-for (var i = 0; i < paramArray.length; i++) {
-  var p = paramArray[i].split('=');
-  params[p[0]] = p[1];
-}
-setBreath();
-
-
-setInterval(function() {
-  direction = direction === 'expand' ? 'contract' : 'expand';
-  console.log(circle.scale);
-}, breathIn);
+var scalePerFrameIn = maxScale /  (settings.breathIn * 60);
+var scalePerFrameOut = maxScale / (settings.breathOut * 60);
 
 two.play();
-
 two.bind('update', expandContract);
 
-function expandContract() {
-  if (direction === 'expand') {
-    scale += 0.15;
-    circle.scale = scale;
-  }
-
-  if (direction === 'contract') {
-    scale -= 0.15;
-    circle.scale = scale;
+function expandContract(frameCount) {
+  var scale = square.scale;
+  switch (direction) {
+    case 'expand':
+      scale += scalePerFrameIn;
+      square.scale = scale;
+      if (scale >= maxScale) { direction = 'contract'; }
+      break;
+    case 'contract':
+      scale -= scalePerFrameOut;
+      square.scale = scale;
+      if (scale <= 1) { direction = 'expand'; }
+      break;
   }
 }
 
-function setBreath() {
+function paramSettings() {
+  square.linewidth = 0;
+
+  var paramArr = window.location.search.substr(1).split('&');
+  for (var i = 0; i < paramArr.length; i++) {
+    var p = paramArr[i].split('=');
+    params[p[0]] = p[1];
+  }
+
   if (params.breathIn) {
-    breathIn = params.breathIn * 1000;
+    settings.breathIn = params.breathIn;
+  } else {
+    settings.breathIn = 4;
   }
 
   if (params.breathOut) {
-    breathOut = params.breathOut * 1000;
+    settings.breathOut = params.breathOut;
+  } else {
+    settings.breathOut = 4;
+  }
+
+ // if (params.scale) {
+ //   square.scale = params.scale;
+ // } else {
+    square.scale = 1;
+ // }
+
+  if (params.color) {
+    square.fill = "#" + params.color;
+  } else {
+    square.fill = '#228B22';
   }
 }
